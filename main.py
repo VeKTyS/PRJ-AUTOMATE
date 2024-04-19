@@ -1,8 +1,8 @@
-from prettytable import PrettyTable
+
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "h,", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t","u","v", "w", "x", "y", "z"]
 det_etats_nouvaux = [] # Liste contenant les nouveaux etats pour la determinisation
-nom_fichier = "Automates/C8_"
+nom_fichier = "automates/C8_"
 saisi = input("Entrez le numero de l'automate: ")
 nom_fichier = nom_fichier + saisi + ".txt" # Traitement du nom de fichier
 
@@ -27,13 +27,13 @@ with open(nom_fichier, "r") as f:
     etats_term = traitement_inputtostring(etats_term)
     nbr_transi = nbr_transi.split(",")
 
-    trans = [] # Transitions
 
+
+    trans = [] # Transitions
     for i in transi:
         i = i.rstrip("\n")
         trans.append(i.split(","))
     f.close()
-
 liste_etats = []
 for i in range(int(nbr_etats[0])):
     liste_etats.append(i)
@@ -41,11 +41,13 @@ for i in range(int(nbr_etats[0])):
 
 def transition_table(a):
     #TRANSFORMER LES TRANSITIONS DE LA FORME '2a3' SOUS FORME D'UN TABLEAU
-    l = [int(a[0])]
-    b = a[1]
-    l.append(abc.index(b))
-    l.append(a[2])
-    return l
+    if a[0] != "-":
+        l = [int(a[0])]
+        b = a[1]
+        l.append(alphabet.index(b))
+        l.append(a[2])
+        return l
+    return []
 
 # intialisation de la matrice automate sous la forme de matrice carrée remplie de '-'
 Automate = []
@@ -58,7 +60,8 @@ for i in range(nbr_etats):
     Automate.append(temp)
 
 # remplissage d'Automate avec les transitions
-for i in trans:
+
+for i in trans[1]:
     for j in i:
         l = transition_table(j)
         if Automate[l[0]][l[1]] == '-':
