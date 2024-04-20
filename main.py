@@ -450,24 +450,13 @@ def menu():
                     if choix == 'n':
                         break
 
-            if est_un_automate_deterministe(Automate):
-                print("Il est déjà determinisé.")
-                if not est_complet(Automate):
-                    print("Cependant il n'est pas complet. Rendre complet ? : y ou n")
-                    choix = input("")
-                    if choix == 'y':
-                        determini2 = completion(Automate)
-                        affichage_automate_deter(determini2[1], determini2[0], etats_init, etats_term)
-                    if choix == 'n':
-                        break
         elif choix == '3':
             if not est_complet(Automate):
                 completion(Automate)
                 affichage_automate(Automate)
             else:
                 print("Deja complet !")
-        else:
-            break
+
 
 
 menu()
