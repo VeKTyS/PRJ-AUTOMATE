@@ -1,4 +1,4 @@
-
+from prettytable import PrettyTable # Importation de la bibliothèque PrettyTable qui permet de créer des tableaux formatés.
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "h,", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t","u","v", "w", "x", "y", "z"]
 det_etats_nouvaux = [] # Liste contenant les nouveaux etats pour la determinisation
@@ -6,10 +6,10 @@ nom_fichier = "automates/C8_"
 saisi = input("Entrez le numero de l'automate: ")
 nom_fichier = nom_fichier + saisi + ".txt" # Traitement du nom de fichier
 
-def traitement_inputtostring(input): # Convertir les lignes du fichier en chaine de caractère
-    input = input.rstrip("\n") # supprime tous les
-    liste_input = input.split(",")
-    return liste_input
+def process_input_string(input_string): # Convertir les lignes du fichier en chaine de caractère
+    input_string = input_string.rstrip("\n")
+    input_list = input_string.split(",")
+    return input_list
 
 with open(nom_fichier, "r") as f:
     # extraction des informations du fichier
@@ -19,35 +19,34 @@ with open(nom_fichier, "r") as f:
     etats_init = liste[2]
     etats_term = liste[3]
     nbr_transi = liste[4]
-    transi = liste[5]
+    transi = [liste[5]]
 
-    alphabet = traitement_inputtostring(alphabet)
-    nbr_etats = traitement_inputtostring(nbr_etats)
-    etats_init = traitement_inputtostring(etats_init)
-    etats_term = traitement_inputtostring(etats_term)
+    # gestion des informations en données utilisables (reformatages des données)
+
+    alphabet = process_input_string(alphabet)
+    nbr_etats = process_input_string(nbr_etats)
+    etats_init = process_input_string(etats_init)
+    etats_term = process_input_string(etats_term)
     nbr_transi = nbr_transi.split(",")
 
-
-
     trans = [] # Transitions
+
     for i in transi:
         i = i.rstrip("\n")
         trans.append(i.split(","))
     f.close()
+
 liste_etats = []
 for i in range(int(nbr_etats[0])):
     liste_etats.append(i)
 
-
-def transition_table(a):
-    #TRANSFORMER LES TRANSITIONS DE LA FORME '2a3' SOUS FORME D'UN TABLEAU
-    if a[0] != "-":
-        l = [int(a[0])]
-        b = a[1]
-        l.append(alphabet.index(b))
-        l.append(a[2])
-        return l
-    return []
+def tr_interpretor(a):
+    # TRADUCTION D'UNE TRANSITION SOUS LA FORME '2a3' A LA FORME [2,0,3]
+    l = [int(a[0])]
+    b = a[1]
+    l.append(alphabet.index(b))
+    l.append(a[2])
+    return l
 
 # intialisation de la matrice automate sous la forme de matrice carrée remplie de '-'
 Automate = []
@@ -60,15 +59,13 @@ for i in range(nbr_etats):
     Automate.append(temp)
 
 # remplissage d'Automate avec les transitions
-
-for i in trans[1]:
+for i in trans:
     for j in i:
-        l = transition_table(j)
+        l = tr_interpretor(j)
         if Automate[l[0]][l[1]] == '-':
             Automate[l[0]][l[1]] = l[2]
         else:
             Automate[l[0]][l[1]] += ',' + l[2]
-
 
 
 def affichage_B(alphabet, Automate):
