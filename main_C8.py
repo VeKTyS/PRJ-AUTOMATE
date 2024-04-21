@@ -220,38 +220,38 @@ def est_un_automate_standard(etats_init):
         return True
     return False
 
+def standardiser(Automate, etat_init):
+    transitions_standardisees = []  # Initialise une liste pour stocker les transitions standardisées
+    nouveaux_etats_initiaux = ["i"]  # Initialise une liste pour les nouveaux états initiaux avec "i"
 
-# Définition de la fonction standardiser qui prend en entrée un automate et l'état initial.
-def standardiser(Automate,etat_init):
-
-    stand = []
-
-    # Initialisation d'une liste "etats" avec l'état initial "i".
-    etats = ["i"]
-    tempo = ""
     for i in range(nbr_etats):
-        etats.append(i)
+        nouveaux_etats_initiaux.append(i)
 
-    # Boucle sur chaque état de l'automate.
-    for i in range(len(alphabet)):
-        for j in range(nbr_etats):
-            if not Automate[j][i] == "-":
-                if str(j) in etat_init:
-                    for z in Automate[j][i]:
-                        if z not in tempo:
-                            tempo = tempo + Automate[j][i]
+    # Boucle sur chaque caractère de l'alphabet
+    for char_index in range(len(alphabet)):
+        transition_temporaire = ""  # Initialise une chaîne temporaire pour stocker la transition
 
+        # Parcourt chaque état de l'automate
+        for etat_index in range(nbr_etats):
+            transition = Automate[etat_index][char_index]
 
-        stand.append(tempo)
-        tempo = ""
-    # Traitement des données pour obtenir les transitions standardisées.
-    temp = []
-    for i in range(len(stand)):
-        temp.append(stand[i].replace(",",""))
+            # Vérifie si la transition n'est pas vide et si l'état est initial
+            if transition != "-" and str(etat_index) in etat_init:
+                # Concatène la transition à la chaîne temporaire en éliminant les virgules
+                transition_temporaire += "".join(transition.split(","))
+
+        # Ajoute la transition normalisée à la liste des transitions standardisées
+        transitions_standardisees.append(transition_temporaire)
+
+    # Supprime les états initiaux multiples et remplace par "i"
     etat_init.clear()
-    etat_init.append("i")
-    Automate.insert(0,temp)
-    return etats,temp
+    etat_init.extend(nouveaux_etats_initiaux)
+
+    # Insère les transitions standardisées au début de l'automate
+    Automate.insert(0, transitions_standardisees)
+
+    # Retourne les nouveaux états initiaux et les transitions standardisées
+    return nouveaux_etats_initiaux, transitions_standardisees
 
 
 def affichage_automate_standard(etats,automate):
