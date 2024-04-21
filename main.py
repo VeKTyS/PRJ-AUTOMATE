@@ -420,7 +420,7 @@ def menu():
                 print("\nTable de transition après determinisation\n")
                 determini = determinisation(Automate)
                 affichage_automate_deter(determini[1], determini[0], etats_init, etats_term)
-                if not est_complet(Automate):
+                if not est_complet(determini):
                     print("Cependant il n'est pas complet. Rendre complet ? : y ou n")
                     choix = input("")
                     if choix == 'y':

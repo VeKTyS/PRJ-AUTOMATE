@@ -23,9 +23,11 @@ Complet : OUI
 ===============================================
 Que voulez-vous faire ?
 Vous pouvez :
-1.standardiser ?
-2.determinisiser ?
+1.determinisiser ?
+2.standardiser?
 Votre choix  : 1
+Déjà determinisé!
+Votre choix  : 2
 
  STANDARDISATION: 
 +-------------+------+---+
@@ -34,6 +36,4 @@ Votre choix  : 1
 |      E      |  i   | 0 |
 |      S      |  0   | 0 |
 +-------------+------+---+
-Votre choix  : 2
-Déjà determinisé!
 Votre choix  : 
