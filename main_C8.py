@@ -18,7 +18,7 @@ saisi = input("Entrez le numero de l'automate: ")
 nom_fichier = nom_fichier + saisi + ".txt"
 
 def process_input_string(input_string): # Convertir les lignes du fichier en chaine de caractère
-    input_string = input_string.rstrip("\n")
+    input_string = input_string.rstrip("\n") #"supression" des retour à la ligne pour eviter qu'ils apparaissent dans l'affichage final
     input_list = input_string.split(",")
     return input_list
 
@@ -51,8 +51,8 @@ liste_etats = []
 for i in range(int(nbr_etats[0])):
     liste_etats.append(i)
 
+# Transformation de transition en string vers une liste (ex : '2a3' -> [2,0,3])
 def transition_list(a):
-    # Transformation de transition en string vers une liste (ex : '2a3' -> [2,0,3])
     l = [int(a[0])]
     b = str(a[1])
     l.append(alphabet.index(b))
@@ -77,16 +77,6 @@ for i in trans:
             Automate[l[0]][l[1]] = l[2]
         else:
             Automate[l[0]][l[1]] += "," + l[2]
-
-
-def affichage_defaut(alphabet, Automate):
-    # AFFICHAGE D'UN AUTOMATE COMPLET SOUS LA FORME DE TABLEAU
-    print(" ", alphabet)
-    n = 0
-    for i in Automate[0:-1]:
-        print(n, i)
-        n += 1
-    print("P", Automate[-1])
 
 
 def est_un_automate_deterministe(Automate):
