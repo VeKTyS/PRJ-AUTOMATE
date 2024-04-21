@@ -54,7 +54,7 @@ def transition_list(a):
     l.append(a[2])
     return l
 
-# intialisation de la matrice automate composé de mot vide (noté "-")
+# intialisation d'un automate composé de mot vide (noté "-")
 Automate = []
 nbr_transi = len(alphabet)
 nbr_etats = int(nbr_etats[-1])
@@ -64,7 +64,7 @@ for i in range(nbr_etats):
         temp.append("-")
     Automate.append(temp)
 
-# remplissage d'Automate avec les transitions de la variable trans
+# remplissage de l'automate initialisé précédemment avec les transitions de la variable trans
 for i in trans:
     for j in i:
         l = transition_list(j)
@@ -75,7 +75,6 @@ for i in trans:
 
 
 def est_un_automate_deterministe(Automate):
-    # VERIFIE SI L'AUTOMATE EST DETERMINISTE OU NON, RENVOIE True/False
     for i in Automate:
         for j in i:
             if len(j) >= 3:
@@ -151,9 +150,9 @@ def determinisation(Automate):
     result = []
     for s in nouveaux_etats:
         sorted_s = ''.join(sorted(s))
-        if sorted_s not in seen:
-            seen.add(sorted_s)
-            result.append(s) # Trie les nouveaux états et élimine les doublons
+        if sorted_s not in seen: # supprime les doublons
+            seen.add(sorted_s) # Trie les nouveaux états 
+            result.append(s) 
 
     automate_determinise = [] # stockage transition determinisé
     liste_temp = []
