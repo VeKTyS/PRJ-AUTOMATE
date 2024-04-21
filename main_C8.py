@@ -18,11 +18,11 @@ saisi = input("Entrez le numero de l'automate: ")
 nom_fichier = nom_fichier + saisi + ".txt"
 
 def process_input_string(input_string): # Convertir les lignes du fichier en chaine de caractère
-    input_string = input_string.rstrip("\n") #"supression" des retour à la ligne pour eviter qu'ils apparaissent dans l'affichage final
+    input_string = input_string.rstrip("\n")
     input_list = input_string.split(",")
     return input_list
 
-with open(nom_fichier, "r") as f: # extraction des informations
+with open(nom_fichier, "r") as f: # On lit le fichier tout en affectant les données à diverses variables
     donnee = f.readlines()
     alphabet = donnee[0]
     nbr_etats = donnee[1]
@@ -31,7 +31,6 @@ with open(nom_fichier, "r") as f: # extraction des informations
     nbr_transi = donnee[4]
     transi = [donnee[5]]
 
-    # Reformatages des données
 
     alphabet = process_input_string(alphabet)
     nbr_etats = process_input_string(nbr_etats)
@@ -42,17 +41,13 @@ with open(nom_fichier, "r") as f: # extraction des informations
     trans = list()
 
     for i in transi:
-        i = i.rstrip("\n") #ajoutée pour supprimer le saut de ligne inutile dans chaque automate
+        i = i.rstrip("\n") #Retirer les sauts de lignes
         trans.append(i.split(","))
 
     f.close()
 
-liste_etats = []
-for i in range(int(nbr_etats[0])):
-    liste_etats.append(i)
-
-# Transformation de transition en string vers une liste (ex : '2a3' -> [2,0,3])
 def transition_list(a):
+    # Transformation de transition en string vers une liste (ex : '2a3' -> [2,a,3])
     l = [int(a[0])]
     b = str(a[1])
     l.append(alphabet.index(b))
@@ -91,14 +86,10 @@ def est_un_automate_deterministe(Automate):
     return True
 
 def est_complet(Automate):
-    # Parcourt chaque ligne de l'automate
     for ligne in Automate:
-        # Parcourt chaque élément de la ligne
         for element in ligne:
-            # Si un élément est égal à "-", l'automate n'est pas complet
             if element == "-":
                 return False
-    # Si aucun élément n'est égal à "-", l'automate est complet
     return True
 
 
@@ -119,17 +110,6 @@ def completion(Automate):
         temp.append('P')
     A.append(temp)
     return A
-
-def donne_etat(etat, etat_term, etat_init):
-    # 1 = initial, 2 = final, 3 = quelconque
-    for i in etat_term:
-        if int(i) == etat:
-            return 2
-    for i in etat_init:
-        if int(i) == etat:
-            return 1
-    return 0
-
 
 def determinisation(Automate):
     nouveaux_etats = []
@@ -175,7 +155,7 @@ def determinisation(Automate):
             seen.add(sorted_s)
             result.append(s) # Trie les nouveaux états et élimine les doublons
 
-    automate_determinise = [] # Initialise une liste pour stocker les transitions déterminisées
+    automate_determinise = [] # stockage transition determinisé
     liste_temp = []
     n = 0
     for i in range(len(result)):
@@ -184,12 +164,11 @@ def determinisation(Automate):
             n = n + 1
         automate_determinise.append(liste_temp)
         liste_temp = []
-    return automate_determinise, result # Ajoute les transitions déterminisées
-
+    return automate_determinise, result # retourne l'automate déterminisée
 
 
 def affichage_automate(Automate):
-    tableau = PrettyTable() # Initialisation d'une variable "tableau" pouvoir afficher les tableaux à l'aide du module prettytable
+    tableau = PrettyTable()
 
     if len(alphabet) == 2:
         colonne = ["Type E ou S", "Etat", "a", "b"]
@@ -201,7 +180,7 @@ def affichage_automate(Automate):
         colonne = ["Type E ou S", "Etat", "a", "b", "c"]
     # Attribution des en-têtes de colonnes à la variable "tableau".
     tableau.field_names = colonne
-    # Initialisation d'une liste "fusion" pour stocker les données de chaque ligne du tableau.
+    # stockage des données de chaque ligne du tableau.
     fusion = []
 
     # Remplissage les données de chaque ligne du tableau.
@@ -220,7 +199,7 @@ def affichage_automate(Automate):
         # Ajout de l'indice de l'état courant dans la liste "fusion".
         fusion.append(i)
 
-        # Boucle sur chaque symbole de l'alphabet pour remplir les données de chaque colonne.
+        # Remplissage de chaque en tête de colonne avec la lettre de l'alphabet de l'automate choisi.
         for j in range(len(alphabet)):
             fusion.append(Automate[i][j])
 
@@ -228,7 +207,7 @@ def affichage_automate(Automate):
         tableau.add_row(fusion)
 
         # Réinitialisation de la liste "fusion" pour remplir la prochaine ligne.
-        fusion = []
+        fusion.clear()
     # Affichage du tableau de transition.
     print(tableau)
 
@@ -244,12 +223,15 @@ def est_un_automate_standard(etats_init):
 
 # Définition de la fonction standardiser qui prend en entrée un automate et l'état initial.
 def standardiser(Automate,etat_init):
-    stand_table = [] # Initialisation d'une liste "stand_table" qui va stocker les transitions de l'état initial.
+
+    stand = []
+
     # Initialisation d'une liste "etats" avec l'état initial "i".
     etats = ["i"]
     tempo = ""
     for i in range(nbr_etats):
         etats.append(i)
+
     # Boucle sur chaque état de l'automate.
     for i in range(len(alphabet)):
         for j in range(nbr_etats):
@@ -260,20 +242,19 @@ def standardiser(Automate,etat_init):
                             tempo = tempo + Automate[j][i]
 
 
-        stand_table.append(tempo)
+        stand.append(tempo)
         tempo = ""
-    # Initialisation d'une liste "temp" pour stocker les transitions standardisées.
+    # Traitement des données pour obtenir les transitions standardisées.
     temp = []
-    for i in range(len(stand_table)):
-        temp.append(stand_table[i].replace(",",""))
+    for i in range(len(stand)):
+        temp.append(stand[i].replace(",",""))
     etat_init.clear()
     etat_init.append("i")
     Automate.insert(0,temp)
-    # Retourne les listes "etats" et "temp".
     return etats,temp
 
 
-def affichage_automate_standard(etats,auto):
+def affichage_automate_standard(etats,automate):
     tableau = PrettyTable()
     sortie = 0
     if len(alphabet) == 2:
@@ -301,11 +282,11 @@ def affichage_automate_standard(etats,auto):
         type = ""
         fusion.append(etats[i])
         for j in range(len(alphabet)):
-            fusion.append(auto[i][j])
+            fusion.append(automate[i][j])
         tableau.add_row(fusion)
         fusion.pop(0)
         fusion.pop(0)
-        auto.append(fusion)
+        automate.append(fusion)
         fusion = []
     print(tableau)
 
@@ -426,4 +407,3 @@ def menu():
 
 
 menu()
-
