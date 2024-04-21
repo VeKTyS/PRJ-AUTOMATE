@@ -1,0 +1,47 @@
+Entrez le numero de l'automate: 18
+Affichage du fichier selectionné :
+Alphabet:  ['a', 'b', 'c', 'd']
+Etats initiaux:  ['1']
+Etats terminaux:  ['0']
+Nombre d'états:  5
+Les differentes transitions:  [['1a2', '1b3', '1c4', '1d0', '2a2', '2b3', '2c4', '2d0', '3b3', '3c4', '3d0', '4c4', '4d0']] 
+
+===============================================
+
+ TABLE DE TRANSITION DE BASE DE L'AUTOMATE 
+
++-------------+------+---+---+---+---+
+| Type E ou S | Etat | a | b | c | d |
++-------------+------+---+---+---+---+
+|      S      |  0   | - | - | - | - |
+|      E      |  1   | 2 | 3 | 4 | 0 |
+|      -      |  2   | 2 | 3 | 4 | 0 |
+|      -      |  3   | - | 3 | 4 | 0 |
+|      -      |  4   | - | - | 4 | 0 |
++-------------+------+---+---+---+---+
+===============================================
+Propriété :
+Standard : NON
+Déterministe : OUI
+Complet : NON
+===============================================
+Que voulez-vous faire ?
+Vous pouvez :
+1.determinisiser ?
+2.standardiser?
+Votre choix  : 1
+Déjà determinisé!
+Votre choix  : 2
+
+ STANDARDISATION:
++-------------+------+---+---+---+---+
+| Type E ou S | Etat | a | b | c | d |
++-------------+------+---+---+---+---+
+|      E      |  i   | 2 | 3 | 4 | 0 |
+|      S      |  0   | - | - | - | - |
+|      -      |  1   | 2 | 3 | 4 | 0 |
+|      -      |  2   | 2 | 3 | 4 | 0 |
+|      -      |  3   | - | 3 | 4 | 0 |
+|      -      |  4   | - | - | 4 | 0 |
++-------------+------+---+---+---+---+
+Votre choix  :

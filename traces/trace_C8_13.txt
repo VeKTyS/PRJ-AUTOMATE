@@ -1,0 +1,53 @@
+Entrez le numero de l'automate: 13
+Affichage du fichier selectionné :
+Alphabet:  ['a']
+Etats initiaux:  ['1']
+Etats terminaux:  ['0', '3', '4', '5', '6', '7']
+Nombre d'états:  8
+Les differentes transitions:  [['0a0', '1a2', '2a3', '3a4', '4a5', '5a6', '6a7', '7a0']] 
+
+===============================================
+
+ TABLE DE TRANSITION DE BASE DE L'AUTOMATE 
+
++-------------+------+---+
+| Type E ou S | Etat | a |
++-------------+------+---+
+|      S      |  0   | 0 |
+|      E      |  1   | 2 |
+|      -      |  2   | 3 |
+|      S      |  3   | 4 |
+|      S      |  4   | 5 |
+|      S      |  5   | 6 |
+|      S      |  6   | 7 |
+|      S      |  7   | 0 |
++-------------+------+---+
+===============================================
+Propriété :
+Standard : NON
+Déterministe : OUI
+Complet : OUI
+===============================================
+Que voulez-vous faire ?
+Vous pouvez :
+1.determinisiser ?
+2.standardiser?
+Votre choix  : 1
+Déjà determinisé!
+Votre choix  : 2
+
+ STANDARDISATION:
++-------------+------+---+
+| Type E ou S | Etat | a |
++-------------+------+---+
+|      E      |  i   | 2 |
+|      S      |  0   | 0 |
+|      -      |  1   | 2 |
+|      -      |  2   | 3 |
+|      S      |  3   | 4 |
+|      S      |  4   | 5 |
+|      S      |  5   | 6 |
+|      S      |  6   | 7 |
+|      S      |  7   | 0 |
++-------------+------+---+
+Votre choix  :

@@ -1,0 +1,59 @@
+Entrez le numero de l'automate: 16
+Affichage du fichier selectionné :
+Alphabet:  ['a', 'b', 'c', 'd']
+Etats initiaux:  ['1']
+Etats terminaux:  ['0']
+Nombre d'états:  5
+Les differentes transitions:  [['1a1', '1a2', '2b2', '2b3', '3c3', '3c4', '4d4', '4d0']] 
+
+===============================================
+
+ TABLE DE TRANSITION DE BASE DE L'AUTOMATE 
+
++-------------+------+-----+-----+-----+-----+
+| Type E ou S | Etat |  a  |  b  |  c  |  d  |
++-------------+------+-----+-----+-----+-----+
+|      S      |  0   |  -  |  -  |  -  |  -  |
+|      E      |  1   | 1,2 |  -  |  -  |  -  |
+|      -      |  2   |  -  | 2,3 |  -  |  -  |
+|      -      |  3   |  -  |  -  | 3,4 |  -  |
+|      -      |  4   |  -  |  -  |  -  | 4,0 |
++-------------+------+-----+-----+-----+-----+
+===============================================
+Propriété :
+Standard : NON
+Déterministe : NON
+Complet : NON
+===============================================
+Que voulez-vous faire ?
+Vous pouvez :
+1.determinisiser ?
+2.standardiser?
+Votre choix  : 1
+DETERMINISATION
+
+Table de transition après determinisation
+
++-------------+------+----+----+----+----+
+| Type E ou S | Etat | a  | b  | c  | d  |
++-------------+------+----+----+----+----+
+|      E      |  1   | 12 | -  | -  | -  |
+|      -      |  12  | 12 | 23 | -  | -  |
+|      -      |  23  | -  | 23 | 34 | -  |
+|      -      |  34  | -  | -  | 34 | 40 |
+|      S      |  40  | -  | -  | -  | 40 |
++-------------+------+----+----+----+----+
+Votre choix  : 2
+
+ STANDARDISATION:
++-------------+------+-----+-----+-----+-----+
+| Type E ou S | Etat |  a  |  b  |  c  |  d  |
++-------------+------+-----+-----+-----+-----+
+|      E      |  i   |  12 |     |     |     |
+|      S      |  0   |  -  |  -  |  -  |  -  |
+|      -      |  1   | 1,2 |  -  |  -  |  -  |
+|      -      |  2   |  -  | 2,3 |  -  |  -  |
+|      -      |  3   |  -  |  -  | 3,4 |  -  |
+|      -      |  4   |  -  |  -  |  -  | 4,0 |
++-------------+------+-----+-----+-----+-----+
+Votre choix  :
