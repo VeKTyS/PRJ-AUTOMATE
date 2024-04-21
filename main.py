@@ -23,13 +23,13 @@ def process_input_string(input_string): # Convertir les lignes du fichier en cha
     return input_list
 
 with open(nom_fichier, "r") as f: # extraction des informations 
-    liste = f.readlines()
-    alphabet = liste[0]
-    nbr_etats = liste[1]
-    etats_init = liste[2]
-    etats_term = liste[3]
-    nbr_transi = liste[4]
-    transi = [liste[5]]
+    donnee = f.readlines()
+    alphabet = donnee[0]
+    nbr_etats = donnee[1]
+    etats_init = donnee[2]
+    etats_term = donnee[3]
+    nbr_transi = donnee[4]
+    transi = [donnee[5]]
 
     # Reformatages des données
 
@@ -39,11 +39,12 @@ with open(nom_fichier, "r") as f: # extraction des informations
     etats_term = process_input_string(etats_term)
     nbr_transi = nbr_transi.split(",")
 
-    trans = [] 
+    trans = list()
 
     for i in transi:
-        i = i.rstrip("\n")
+        i = i.rstrip("\n") #ajoutée pour supprimer le saut de ligne inutile dans chaque automate
         trans.append(i.split(","))
+
     f.close()
 
 liste_etats = []
@@ -58,24 +59,24 @@ def transition_list(a):
     l.append(a[2])
     return l
 
-# intialisation de la matrice automate sous la forme de matrice carrée remplie de mot vide (noté "-")
+# intialisation de la matrice automate composé de mot vide (noté "-")
 Automate = []
 nbr_transi = len(alphabet)
 nbr_etats = int(nbr_etats[-1])
 for i in range(nbr_etats):
     temp = []
     for j in range(nbr_transi):
-        temp.append('-')
+        temp.append("-")
     Automate.append(temp)
 
 # remplissage d'Automate avec les transitions de la variable trans
 for i in trans:
     for j in i:
         l = transition_list(j)
-        if Automate[l[0]][l[1]] == '-':
+        if Automate[l[0]][l[1]] == "-":
             Automate[l[0]][l[1]] = l[2]
         else:
-            Automate[l[0]][l[1]] += ',' + l[2]
+            Automate[l[0]][l[1]] += "," + l[2]
 
 
 def affichage_defaut(alphabet, Automate):
@@ -85,9 +86,8 @@ def affichage_defaut(alphabet, Automate):
     for i in Automate[0:-1]:
         print(n, i)
         n += 1
-    print('P', Automate[-1])
+    print("P", Automate[-1])
 
-# remarque l'algo ne marche que pour des transition litterales de (a à v) et des etats allant de 0 a 9
 
 def est_un_automate_deterministe(Automate):
     # VERIFIE SI L'AUTOMATE EST DETERMINISTE OU NON, RENVOIE True/False
@@ -105,29 +105,30 @@ def est_complet(Automate):
     for ligne in Automate:
         # Parcourt chaque élément de la ligne
         for element in ligne:
-            # Si un élément est égal à '-', l'automate n'est pas complet
-            if element == '-':
+            # Si un élément est égal à "-", l'automate n'est pas complet
+            if element == "-":
                 return False
-    # Si aucun élément n'est égal à '-', l'automate est complet
+    # Si aucun élément n'est égal à "-", l'automate est complet
     return True
 
 
 def completion(Automate):
-    c1 = 0
-    c2 = 0
-    for i in Automate:
-        c2 = 0
+    A = Automate
+    compteur1 = 0
+    compteur2 = 0
+    for i in A:
+        compteur2 = 0
         for j in i:
-            if '-' == j:
-                Automate[c1][c2] = 'P'
+            if "-" == j:
+                A[compteur1][compteur2] = 'P'
 
-            c2 += 1
-        c1 += 1
-    ltemp = []
-    for i in range(len(Automate[0])):
-        ltemp.append('P')
-    Automate.append(ltemp)
-    return Automate
+            compteur2 += 1
+        compteur1 += 1
+    temp = []
+    for i in range(len(A[0])):
+        temp.append('P')
+    A.append(temp)
+    return A
 
 def donne_etat(etat, etat_term, etat_init):
     # 1 = initial, 2 = final, 3 = quelconque
@@ -141,17 +142,17 @@ def donne_etat(etat, etat_term, etat_init):
 
 
 def determinisation(Automate):
-    nouveaux_etats = [] # Initialise une liste pour stocker les nouveaux états
-    etats_non_parcourus = [] # Initialise une liste pour stocker les états non encore parcourus
+    nouveaux_etats = []
+    etats_non_parcourus = []
     temp = ""
     for i in etats_init:
         temp = temp + i
-    etat_initial = temp # Concatène les états initiaux
-    etats_non_parcourus.append(etat_initial) # Ajoute les états initiaux à la liste des états non parcourus
+    etat_initial = temp
+    etats_non_parcourus.append(etat_initial)
     stockage = ""
     supprimer_doublon = ""
-    transitions_determinisees = [] # Initialise une liste pour stocker les transitions déterminisées
-    while len(etats_non_parcourus) != 0: # Boucle jusqu'à ce que tous les états soient parcourus
+    transitions_determinisees = []
+    while len(etats_non_parcourus) != 0:
         for j in range(len(alphabet)):
             for i in range(len(etats_non_parcourus[0])):
                 if not Automate[int(etats_non_parcourus[0][i])][j].replace(",", "") == "-":
@@ -159,16 +160,16 @@ def determinisation(Automate):
 
             for caractere in stockage:
                 if caractere not in supprimer_doublon:
-                    supprimer_doublon += caractere # Supprime les doublons dans les transitions
+                    supprimer_doublon += caractere
             if not supprimer_doublon == "":
-                transitions_determinisees.append(supprimer_doublon) # Ajoute les transitions déterminisées à la liste
+                transitions_determinisees.append(supprimer_doublon)
             else:
                 transitions_determinisees.append("-")
             if not supprimer_doublon in nouveaux_etats:
                 if supprimer_doublon != etat_initial:
                     if supprimer_doublon != "":
-                        nouveaux_etats.append(supprimer_doublon) # Ajoute les nouveaux états à la liste s'ils n'ont pas été déjà explorés
-                        etats_non_parcourus.append(supprimer_doublon) # Supprime l'état exploré de la liste des états non parcourus
+                        nouveaux_etats.append(supprimer_doublon)
+                        etats_non_parcourus.append(supprimer_doublon)
 
             stockage = ""
             supprimer_doublon = ""
@@ -282,10 +283,7 @@ def standardiser(Automate,etat_init):
     # Retourne les listes "etats" et "temp".
     return etats,temp
 
-Automate_std = []
 
-
-Automate_std = []
 def affichage_automate_standard(etats,auto):
     tableau = PrettyTable()
     sortie = 0
@@ -318,7 +316,7 @@ def affichage_automate_standard(etats,auto):
         tableau.add_row(fusion)
         fusion.pop(0)
         fusion.pop(0)
-        Automate_std.append(fusion)
+        auto.append(fusion)
         fusion = []
     print(tableau)
     
@@ -398,7 +396,6 @@ def menu():
     print("Vous pouvez :")
     print("1.standardiser ?")
     print("2.determinisiser ?")
-    print("3.completer ?")
 
 
     while True:
@@ -409,53 +406,39 @@ def menu():
                 print("\n STANDARDISATION: ")
                 std = standardiser(Automate, etats_init)
                 affichage_automate_standard(std[0], Automate)
+                """  ###### NE FONCTIONNE PAS CORRECTEMENT ######
                 if not est_complet(Automate):
                     choix = input("Il n'est pas complet. Rendre complet ?? y ou n : ")
 
                     if choix == "y":
-                        completion(Automate_std)
-                        affichage_automate_standard(std[0], Automate_std)
-                        continue
+                        completion(std[1])
+                        affichage_automate_standard(std[0], std[1])
                     elif choix == "n":
                         break
                     else:
                         print("Choix incorrect")
+                """
             else:
                 print("L'automate est déjà standard !")
 
         if choix == '2':
             if not est_un_automate_deterministe(Automate):
                 print("DETERMINISATION")
-            print("\nTable de transition après determinisation\n")
-            if est_complet(Automate):
-                for i in range(len(Automate)):
-                    for j in range(len(alphabet)):
-                        if Automate[i][j] == "P":
-                            Automate[i][j] = "-"
-
-                determini = determinisation(Automate)
-                completion(determini[0])
-                affichage_automate_deter(determini[1], determini[0], etats_init, etats_term)
-            else:
+                print("\nTable de transition après determinisation\n")
                 determini = determinisation(Automate)
                 affichage_automate_deter(determini[1], determini[0], etats_init, etats_term)
                 if not est_complet(Automate):
                     print("Cependant il n'est pas complet. Rendre complet ? : y ou n")
                     choix = input("")
                     if choix == 'y':
-                        completion(determini[0])
-                        affichage_automate_deter(determini[1], determini[0], etats_init, etats_term)
+                        det_comp = completion(determini[0])
+                        affichage_automate_deter(determini_comp[1], determini_comp[0], etats_init, etats_term)
                         if choix == 'n':
                             break
                     if choix == 'n':
                         break
-
-        elif choix == '3':
-            if not est_complet(Automate):
-                completion(Automate)
-                affichage_automate(Automate)
             else:
-                print("Deja complet !")
+                print("Déjà determinisé!")
 
 
 
