@@ -26,7 +26,6 @@ Que voulez-vous faire ?
 Vous pouvez :
 1.standardiser ?
 2.determinisiser ?
-3.completer ?
 Votre choix  : 1
 
  STANDARDISATION: 
@@ -36,14 +35,6 @@ Votre choix  : 1
 |      E      |  i   | 1 |
 |      -      |  0   | 1 |
 |      -      |  1   | - |
-+-------------+------+---+
-Il n'est pas complet. Rendre complet ?? y ou n : y
-+-------------+------+---+
-| Type E ou S | Etat | a |
-+-------------+------+---+
-|      E      |  i   | 1 |
-|      -      |  0   | 1 |
-|      -      |  1   | P |
 +-------------+------+---+
 Votre choix  : 2
 Déjà determinisé!

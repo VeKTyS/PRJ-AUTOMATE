@@ -15,14 +15,14 @@ alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "h,", "k", "l", "m
 det_etats_nouvaux = []
 nom_fichier = "automates/C8_"
 saisi = input("Entrez le numero de l'automate: ")
-nom_fichier = nom_fichier + saisi + ".txt" 
+nom_fichier = nom_fichier + saisi + ".txt"
 
 def process_input_string(input_string): # Convertir les lignes du fichier en chaine de caractère
     input_string = input_string.rstrip("\n")
     input_list = input_string.split(",")
     return input_list
 
-with open(nom_fichier, "r") as f: # extraction des informations 
+with open(nom_fichier, "r") as f: # extraction des informations
     donnee = f.readlines()
     alphabet = donnee[0]
     nbr_etats = donnee[1]
@@ -185,7 +185,6 @@ def determinisation(Automate):
             seen.add(sorted_s)
             result.append(s) # Trie les nouveaux états et élimine les doublons
 
-    print("Nouveaux états après déterminisation: ", result, "\n")
     automate_determinise = [] # Initialise une liste pour stocker les transitions déterminisées
     liste_temp = []
     n = 0
@@ -319,7 +318,7 @@ def affichage_automate_standard(etats,auto):
         auto.append(fusion)
         fusion = []
     print(tableau)
-    
+
 def affichage_automate_deter(etats, auto, etats_init, etats_term):
     tableau = PrettyTable()
     type = ""
@@ -355,12 +354,6 @@ def affichage_automate_deter(etats, auto, etats_init, etats_term):
         tableau.add_row(fusion)
         fusion = []
     print(tableau)
-    
-Automate2 = []
-
-for i in Automate:
-    Automate2.append(i)
-verif = 0
 
 
 def menu():
@@ -394,13 +387,13 @@ def menu():
     print("===============================================")
     print("Que voulez-vous faire ?")
     print("Vous pouvez :")
-    print("1.standardiser ?")
-    print("2.determinisiser ?")
+    print("1.determinisiser ?")
+    print("2.standardiser?")
 
 
     while True:
         choix = input("Votre choix  : ")
-        if choix == '1':
+        if choix == '2':
 
             if not est_un_automate_standard(Automate):
                 print("\n STANDARDISATION: ")
@@ -421,7 +414,7 @@ def menu():
             else:
                 print("L'automate est déjà standard !")
 
-        if choix == '2':
+        if choix == '1':
             if not est_un_automate_deterministe(Automate):
                 print("DETERMINISATION")
                 print("\nTable de transition après determinisation\n")
@@ -431,8 +424,8 @@ def menu():
                     print("Cependant il n'est pas complet. Rendre complet ? : y ou n")
                     choix = input("")
                     if choix == 'y':
-                        det_comp = completion(determini[0])
-                        affichage_automate_deter(determini_comp[1], determini_comp[0], etats_init, etats_term)
+                        completion(determini[0])
+                        affichage_automate_deter(determini[1], determini[0], etats_init, etats_term)
                         if choix == 'n':
                             break
                     if choix == 'n':
