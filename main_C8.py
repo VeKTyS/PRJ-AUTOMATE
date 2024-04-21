@@ -22,7 +22,7 @@ def process_input_string(input_string): # Convertir les lignes du fichier en cha
     input_list = input_string.split(",")
     return input_list
 
-with open(nom_fichier, "r") as f: # extraction des informations
+with open(nom_fichier, "r") as f: # On lit le fichier tout en affectant les données à diverses variables
     donnee = f.readlines()
     alphabet = donnee[0]
     nbr_etats = donnee[1]
@@ -31,7 +31,6 @@ with open(nom_fichier, "r") as f: # extraction des informations
     nbr_transi = donnee[4]
     transi = [donnee[5]]
 
-    # Reformatages des données
 
     alphabet = process_input_string(alphabet)
     nbr_etats = process_input_string(nbr_etats)
@@ -42,7 +41,7 @@ with open(nom_fichier, "r") as f: # extraction des informations
     trans = list()
 
     for i in transi:
-        i = i.rstrip("\n") #ajoutée pour supprimer le saut de ligne inutile dans chaque automate
+        i = i.rstrip("\n") #Retirer les sauts de lignes
         trans.append(i.split(","))
 
     f.close()
@@ -52,7 +51,7 @@ for i in range(int(nbr_etats[0])):
     liste_etats.append(i)
 
 def transition_list(a):
-    # Transformation de transition en string vers une liste (ex : '2a3' -> [2,0,3])
+    # Transformation de transition en string vers une liste (ex : '2a3' -> [2,a,3])
     l = [int(a[0])]
     b = str(a[1])
     l.append(alphabet.index(b))
@@ -100,15 +99,11 @@ def est_un_automate_deterministe(Automate):
 
     return True
 
-def est_complet(Automate):
-    # Parcourt chaque ligne de l'automate
+def est_complet(Automate): #Si un élément = '-'n alors non complet, sinon complet.
     for ligne in Automate:
-        # Parcourt chaque élément de la ligne
         for element in ligne:
-            # Si un élément est égal à "-", l'automate n'est pas complet
             if element == "-":
                 return False
-    # Si aucun élément n'est égal à "-", l'automate est complet
     return True
 
 
@@ -199,7 +194,7 @@ def determinisation(Automate):
 
 
 def affichage_automate(Automate):
-    tableau = PrettyTable() # Initialisation d'une variable "tableau" pouvoir afficher les tableaux à l'aide du module prettytable
+    tableau = PrettyTable()
 
     if len(alphabet) == 2:
         colonne = ["Type E ou S", "Etat", "a", "b"]
