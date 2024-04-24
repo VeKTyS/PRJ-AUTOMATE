@@ -12,7 +12,7 @@ TCHING ANGELA
 from prettytable import PrettyTable # Module permettant de créer des tableaux dédiée à l'affichage
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "h,", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t","u","v", "w", "x", "y", "z"]
-det_etats_nouvaux = []
+det_etats_nouveaux = []
 nom_fichier = "automates/C8_"
 saisi = input("Entrez le numero de l'automate: ")
 nom_fichier = nom_fichier + saisi + ".txt"
